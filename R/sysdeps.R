@@ -27,8 +27,9 @@ package_sysdeps <- function(pkg, lib.loc = NULL){
   if(running_on('windows'))
     stop("This function currently does not work on Windows.")
   paths <- as.character(package_links_to(pkg = pkg, lib.loc = lib.loc))
-  skiplist <- c("libR", "libm", "libgcc_s", "libc", "ld-linux-x86-64", "libSystem.B")
+  skiplist <- c("libR", "libRblas", "libRlapack", "libm", "libgcc_s", "libc", "ld-linux-x86-64", "libSystem.B")
   paths <- paths[is.na(match(dll_name_only(paths), skiplist))]
+  paths <- normalizePath(paths, mustWork = FALSE) # expand symlinks
   pkgs <- find_packages(paths)
   df <- data.frame(
     shlib = basename(paths),
@@ -68,9 +69,10 @@ package_links_to <- function(pkg, lib.loc = NULL){
 }
 
 links_to_ldd <- function(dll){
+  readelf <- ifelse(running_on('solaris'), 'greadelf', 'readelf')
   lddinfo <- sys_call('ldd', dll, error = FALSE)
   lddinfo <- sub(" \\([a-f0-9x]+\\)$", "", lddinfo)
-  text <- sys_call('readelf', c('-d', dll))
+  text <- sys_call(readelf, c('-d', dll))
   text <- grep('^.*NEEDED.*\\[(.*)\\]$', text, value = TRUE)
   shlibs <- sub('^.*NEEDED.*\\[(.*)\\]$', '\\1', text)
   paths <- lapply(shlibs, function(x){
