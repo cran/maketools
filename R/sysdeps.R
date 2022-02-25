@@ -26,7 +26,11 @@
 package_sysdeps <- function(pkg, lib.loc = NULL){
   if(running_on('windows'))
     stop("This function currently does not work on Windows.")
-  paths <- as.character(package_links_to(pkg = pkg, lib.loc = lib.loc))
+  paths <- package_links_to(pkg = pkg, lib.loc = lib.loc)
+  pkgdll <- as.character(attr(paths, 'pkgdll'))
+  paths <- Filter(function(dllpath){
+    !identical(site_dir(dllpath), site_dir(pkgdll))
+  }, paths)
   skiplist <- c("libR", "libRblas", "libRlapack", "libm", "libgcc_s", "libc", "ld-linux-x86-64", "libSystem.B")
   paths <- paths[is.na(match(dll_name_only(paths), skiplist))]
   paths <- normalizePath(paths, mustWork = FALSE) # expand symlinks
@@ -47,6 +51,7 @@ package_sysdeps <- function(pkg, lib.loc = NULL){
 #' @rdname sysdeps
 package_sysdeps_string <- function(pkg, lib.loc = NULL){
   df <- package_sysdeps(pkg = pkg, lib.loc = lib.loc)
+  df <- subset(df, !is.na(df$package))
   paste0(sprintf("%s (%s)", df$package, df$version), collapse = ", ")
 }
 
@@ -58,14 +63,14 @@ package_links_to <- function(pkg, lib.loc = NULL){
     stop("Package not found")
   dll <- file.path(pkgpath, sprintf('libs%s/%s%s', Sys.getenv('R_ARCH'), pkg, .Platform$dynlib.ext))
   if(!file.exists(dll)) # No compiled code
-    return(NULL)
-  if(running_on('macos')){
+    return(character())
+  structure(if(running_on('macos')){
     links_to_macos(dll)
   } else if(running_on('windows')) {
     links_to_windows(dll)
   } else {
     links_to_ldd(dll)
-  }
+  }, pkgdll = dll)
 }
 
 links_to_ldd <- function(dll){
@@ -77,6 +82,9 @@ links_to_ldd <- function(dll){
   shlibs <- sub('^.*NEEDED.*\\[(.*)\\]$', '\\1', text)
   paths <- lapply(shlibs, function(x){
     line <- grep(x, lddinfo, fixed = TRUE, value = TRUE)
+    if(grepl('not found', line, fixed = TRUE)){
+      return(x)
+    }
     utils::tail(strsplit(line, ' ', fixed = TRUE)[[1]], 1)
   })
   trimws(unlist(paths))
@@ -287,4 +295,8 @@ get_package_urls <- function(pkgs){
 
 running_on <- function(str){
   isTRUE(grepl(str, utils::sessionInfo()$running, ignore.case = TRUE))
+}
+
+site_dir <- function(x){
+  tolower(normalizePath(dirname(dirname(x)), mustWork = FALSE))
 }
