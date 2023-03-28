@@ -47,6 +47,11 @@ package_sysdeps <- function(pkg, lib.loc = NULL){
   df_as_tibble(df)
 }
 
+#dll_has_symbol <- function(dll, symbol){
+#  db <- tools:::read_symbols_from_object_file(dll)
+#  symbol %in% db[,'name']
+#}
+
 #' @export
 #' @rdname sysdeps
 package_sysdeps_string <- function(pkg, lib.loc = NULL){
@@ -64,6 +69,15 @@ package_links_to <- function(pkg, lib.loc = NULL){
   dll <- file.path(pkgpath, sprintf('libs%s/%s%s', Sys.getenv('R_ARCH'), pkg, .Platform$dynlib.ext))
   if(!file.exists(dll)) # No compiled code
     return(character())
+
+  # Todo: is there a better way to detect rust?
+  # Does not work icw _R_SHLIB_STRIP_=true
+  #if(running_on('ubuntu') && dll_has_symbol(dll, '_rust_begin_unwind')){
+  #  rustc <- Sys.which('rustc')
+  #  if(nchar(rustc)){
+  #    return(rustc)
+  #  }
+  #}
   structure(if(running_on('macos')){
     links_to_macos(dll)
   } else if(running_on('windows')) {
