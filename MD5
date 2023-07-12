@@ -1,4 +1,4 @@
-c25190da19dc8e832b6d76c9a39bd888 *DESCRIPTION
+c63b69a2284c07ef2ce410f45bbaf018 *DESCRIPTION
 f35c1dd7a6e913e967bd6e03dd8a3c18 *LICENSE
 9309b7979a064a45f19d0aefab6997ab *NAMESPACE
 5e184b3d96e911b72d5cfb5210ad1c58 *R/diagnostics.R
@@ -6,10 +6,10 @@ f35c1dd7a6e913e967bd6e03dd8a3c18 *LICENSE
 4205b9b3a04ee25b8a104730511db425 *R/init.R
 f550df17501a516eb37b45e2802b50de *R/logo.R
 fcb5205026ef592bf91dac7964e8975e *R/make.R
-2a9472c68ea9614380566dfa5734e387 *R/pkgconfig.R
+3e60570785e28d6dc4b3f184432579de *R/pkgconfig.R
 fb3ebd90799e9647ba775e0290498207 *R/rtools.R
 89ee488b2edbcea345ecf4f214e8c009 *R/sysdeps.R
-b21021e4b994dc9335e22b443454db6f *build/vignette.rds
+179ae80f452ea8be1759cdf2e8e9944f *build/vignette.rds
 4b73eb641175b24140225b50974d32e2 *inst/doc/sysdeps.R
 57b64d971ccff4e3e0b088639f270d36 *inst/doc/sysdeps.Rmd
 d366687b3eca3f1afd8ba316be484e28 *inst/doc/sysdeps.html
@@ -23,5 +23,5 @@ c615591476b1642a66b9665cb6d87263 *man/extra.Rd
 1d915c488c5686d67bfeeb33f5f3c82a *man/rtools.Rd
 e78c71ce56e98973f13de1a0d602bf58 *man/sysdeps.Rd
 2796cb294c3ccb6adaa35b902487b65e *tests/testthat.R
-cf951f5136c4a066a48cef19959b6bb5 *tests/testthat/test-sysdeps.R
+9b978d4caf935fa507f775f6409bf9a3 *tests/testthat/test-sysdeps.R
 57b64d971ccff4e3e0b088639f270d36 *vignettes/sysdeps.Rmd
