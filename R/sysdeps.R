@@ -193,7 +193,7 @@ rpm_find <- function(path){
 pacman_find <- function(path){
   tryCatch({
     str <- sys_call('pacman', c('-Qo', path))
-    paste(tail(strsplit(str, ' ', fixed = TRUE)[[1]], 2), collapse = '\t')
+    paste(utils::tail(strsplit(str, ' ', fixed = TRUE)[[1]], 2), collapse = '\t')
   }, error = function(e){
     NA_character_
   })
@@ -280,7 +280,8 @@ get_brew_url <- function(pkg_names){
       stopifnot(length(text) > 0)
       sub(pattern, '\\1', text)
     }, error = function(e){
-      sprintf('https://github.com/homebrew/homebrew-core/blob/master/Formula/%s.rb', pkg)
+      prefix <- substring(pkg, 1, ifelse(grepl("^lib", pkg), 3, 1))
+      sprintf('https://github.com/homebrew/homebrew-core/blob/master/Formula/%s/%s.rb', prefix, pkg)
     })
   }, character(1), USE.NAMES = FALSE)
 }
