@@ -1,4 +1,4 @@
-4656e6fb1cf3f0d1fd9959d51b41451c *DESCRIPTION
+1cf54a2809d4e596712f194b3547609c *DESCRIPTION
 f35c1dd7a6e913e967bd6e03dd8a3c18 *LICENSE
 fd2bd7c56d374afc954896f01f66ad2e *NAMESPACE
 db0b7ba4082a01b67161ed5e2e6bd18e *R/diagnostics.R
@@ -7,8 +7,8 @@ db0b7ba4082a01b67161ed5e2e6bd18e *R/diagnostics.R
 f550df17501a516eb37b45e2802b50de *R/logo.R
 fcb5205026ef592bf91dac7964e8975e *R/make.R
 9082b32f6476b220997ce6a6ffe7a79f *R/pkgconfig.R
-9fdbb0bc7280ca2f5d8c73657367a411 *R/sysdeps.R
-3aae05f6737cabd8e86b8a7d9a2930c5 *build/vignette.rds
+776b9bdf8579979c4b81755e87117238 *R/sysdeps.R
+10a006436d5f945465f174ab79f255c6 *build/vignette.rds
 4b73eb641175b24140225b50974d32e2 *inst/doc/sysdeps.R
 57b64d971ccff4e3e0b088639f270d36 *inst/doc/sysdeps.Rmd
 d366687b3eca3f1afd8ba316be484e28 *inst/doc/sysdeps.html
